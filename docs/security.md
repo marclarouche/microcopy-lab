@@ -1,0 +1,37 @@
+# Security and privacy
+Run from the repository root with the documented localhost command. Streamlit binds to 127.0.0.1, disables usage telemetry, and hides detailed user-facing errors. Streamlit's default CORS/XSRF protections remain enabled. This is a local prototype with no authentication; do not expose it to a network.
+
+The importer enforces a 5 MiB byte limit before decoding, a configurable project record limit, bounded field sizes, UTF-8, strict CSV widths/quoting, and duplicate JSON-key rejection. Nonfinite JSON constants and malformed or deeply nested input are rejected with generic errors. Invalid rows have safe row diagnostics without original text or parser messages.
+
+Imported content is inert data: no eval, shell execution, URL requests, dynamic templates, external resources, or source-driven configuration. Tables and text widgets display plain text. Do not introduce unsafe_allow_html. Embedded markup and prompt injection examples are intentionally preserved. Milestone 3 adds an explicit local inference path with no model tool execution.
+
+YAML is loaded locally using SafeLoader, bounded to 100 KB, and validated. Do not store secrets in catalogs. Source content is not logged by application code. Content remains in process memory, including session state; this is not secure memory erasure. Local browser/OS access remains part of the trust boundary. Installation and pip-audit use package/advisory services and are distinct from offline application runtime.
+
+Limits reduce resource exhaustion but do not constitute a hardened multi-user service. Python's CSV parser may reject very large cells before the application field cap. Unicode lengths count code points, not rendered width. No persistent database, cloud service, or application telemetry is included.
+
+## Deterministic audit boundaries
+Audit rules and placeholder comparison are pure local processing. No rule follows imported links or runs code. Configured terms and custom tokens are escaped as literals, never accepted as arbitrary regex. Placeholder syntax selectors choose fixed application patterns. Phrase lists and token declarations have explicit bounds. YAML reads stop at 100,001 bytes before parsing and reject oversized guides.
+
+Imported source text is never interpolated into executable markup. Findings are displayed in plain tables/text; there is no automatic replacement path. Technical tokens and configured product names are protected from terminology/prohibited-phrase matching. Candidate comparison returns an invalid result on missing, renamed, duplicated, or added supported tokens; the AI candidate gate enforces that result. This does not prove semantic equivalence or protect an AI system by itself.
+
+Input fingerprints prevent stale findings from being displayed after catalog or guide changes. Hashes do not anonymize short sensitive strings. Source text and matched evidence are retained in memory for UI inspection, without application logging. Findings do not enable network, shell, or filesystem access. Local authentication and hardening limitations from Milestone 1 still apply.
+
+## Local AI trust boundary
+The optional Ollama adapter is the sole new network boundary and accepts only numeric loopback endpoints. Direct standard-library HTTP ignores environment proxies and never follows redirects. The client uses fixed tags/show/chat endpoints, checks for installed local-weight metadata, and rejects cloud-labelled/remote-backed models before source inference. The daemon remains a trusted local dependency; do not replace it with an untrusted proxy. Disable Ollama cloud features at daemon level for additional assurance; the app does not alter global settings.
+
+Source content is serialized into a separate user data message. No tools, browsing, filesystem access, external URLs, shell execution, automatic model downloads, or product modifications are available to the model. Response size/token/time/record bounds, strict schema/source-ID checks, and application-owned candidate validation limit damage from malformed or hostile output. Questions and findings render as plain data, never executable HTML. No application logger records prompts, outputs, or imported text by default. Safe diagnostics omit raw server bodies and parsing errors.
+
+Prompt separation and exact evidence/token checks mitigate risk but cannot prove factual entailment or perfect injection resistance. Pending candidates always require human behavior confirmation. Conservative filters may withhold valid paraphrases. Ollama can retain models/cache prompts in its own process; privacy also depends on that trusted daemon and local OS access. AI results remain in session memory and are never automatically applied.
+
+## Preview rendering
+Untrusted source/generated strings are escaped as text nodes before entering fixed templates. No imported value is placed in a style, attribute, ID, URL or path. Scoped CSS and enum-selected themes/layouts are application-owned. Streamlit's sanitized st.html path is used with JavaScript disabled; unsafe_allow_html and raw iframe HTML are not used. Buttons and fields are disabled, helper disclosure is native HTML, and templates include no remote assets, links, executable scripts or product actions.
+
+Token checks are recomputed before revised rendering; claimed protected_tokens_valid metadata cannot bypass them. Source-ID mismatch or broken token integrity withholds the revised component. Stale AI results are excluded through the existing fingerprint, and illustrative examples must exactly match current source data. Local paired samples are bounded before parsing; they cannot claim AI provenance or approved status. Previews remain inspection only; separate Milestone 5 forms own explicit editorial decisions, with no automatic application to source records.
+
+## Editorial decisions and exports
+All candidates enter the review workflow pending regardless of supplied status/token flags. Approval requires explicit human behavior confirmation and fresh checks of source/context/style binding, placeholders, protected terms and length. Material edits reset approval. Stale/conflicting decisions cannot enter approved replacements. These controls do not prove semantic meaning or accessibility compliance.
+
+Export generation is pure in-memory processing. Imported values do not become file paths, shell commands, URLs or configuration. CSV uses standard quoting plus an apostrophe prefix for formula-like cells; JSON preserves exact source data. Markdown escapes HTML and Markdown image/link syntax. Reports contain source text and notes by design and are downloaded only through explicit controls. No automatic source-file rewrite, publication, persistent storage or report-import execution path exists.
+
+## Release checks
+Release tests complete the fictional demo and a review/preview/export UI session with socket connections and DNS forbidden, recording zero attempts. A separate test forces the real local adapter's connection to fail and verifies safe AI diagnostics plus continued manual approval/export. CSV formula-prefix tests include control characters, BOM and Unicode whitespace. Report generation checks retained source snapshot equality in addition to its fingerprint. Core AST checks exclude Streamlit, subprocess, eval and exec; these are regression boundaries, not a formal sandbox or penetration test. Actual desktop browser smoke and current dependency-advisory results are recorded in release_validation.md.

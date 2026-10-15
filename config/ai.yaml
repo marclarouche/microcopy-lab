@@ -1,0 +1,10 @@
+# Local inference only. Models must already be installed; no automatic downloads.
+base_url: http://127.0.0.1:11434
+model: qwen3-vl:4b-instruct
+timeout_seconds: 120
+run_timeout_seconds: 180
+max_records_per_run: 5
+max_input_bytes: 32768
+max_response_bytes: 131072
+max_output_tokens: 512
+context_tokens: 8192

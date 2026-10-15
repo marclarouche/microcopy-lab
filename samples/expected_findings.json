@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "description": "Human-authored acceptance expectations for the bundled guide, not generated suggestions. Unlisted strings have no deterministic findings.",
+  "expected_rules_by_string": {
+    "FLEET-001": [
+      "COMPONENT-GENERIC-LABEL"
+    ],
+    "FLEET-002": [
+      "COMPONENT-GENERIC-LABEL"
+    ],
+    "FLEET-003": [
+      "TERM-PREFERRED"
+    ],
+    "FLEET-004": [
+      "TERM-PREFERRED"
+    ],
+    "FLEET-006": [
+      "TERM-PREFERRED"
+    ],
+    "FLEET-007": [
+      "TEXT-LENGTH"
+    ],
+    "FLEET-012": [
+      "TEXT-LENGTH"
+    ],
+    "FLEET-016": [
+      "COMPONENT-GENERIC-LABEL"
+    ],
+    "FLEET-017": [
+      "TERM-PREFERRED"
+    ],
+    "FLEET-018": [
+      "COMPONENT-GENERIC-LABEL"
+    ],
+    "FLEET-020": [
+      "TEXT-LENGTH"
+    ],
+    "FLEET-021": [
+      "ERROR-CODE-ONLY"
+    ],
+    "FLEET-022": [
+      "COMPONENT-GENERIC-LABEL"
+    ],
+    "FLEET-023": [
+      "PHRASE-PROHIBITED"
+    ],
+    "FLEET-028": [
+      "COMPONENT-GENERIC-LABEL"
+    ]
+  }
+}

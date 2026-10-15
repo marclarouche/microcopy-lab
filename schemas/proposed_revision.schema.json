@@ -1,0 +1,149 @@
+{
+  "$defs": {
+    "ReviewStatus": {
+      "description": "Explicit human editorial decisions for a revision version.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_clarification"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "description": "Pending source-linked candidate; never an automatically accepted replacement.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "revision_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+      "title": "Revision Id",
+      "type": "string"
+    },
+    "string_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+      "title": "String Id",
+      "type": "string"
+    },
+    "finding_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Finding Id"
+    },
+    "suggested_text": {
+      "maxLength": 100000,
+      "minLength": 1,
+      "title": "Suggested Text",
+      "type": "string"
+    },
+    "rationale": {
+      "maxLength": 100000,
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "requires_behavior_confirmation": {
+      "default": true,
+      "title": "Requires Behavior Confirmation",
+      "type": "boolean"
+    },
+    "protected_tokens_valid": {
+      "default": false,
+      "title": "Protected Tokens Valid",
+      "type": "boolean"
+    },
+    "review_status": {
+      "$ref": "#/$defs/ReviewStatus",
+      "default": "pending"
+    },
+    "category": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Category"
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Severity"
+    },
+    "rule_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rule Id"
+    },
+    "model_identifier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model Identifier"
+    },
+    "evidence_quote": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Quote"
+    }
+  },
+  "required": [
+    "string_id",
+    "suggested_text",
+    "rationale"
+  ],
+  "title": "ProposedRevision",
+  "type": "object"
+}

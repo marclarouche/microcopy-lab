@@ -1,0 +1,510 @@
+{
+  "$defs": {
+    "AIDiagnostic": {
+      "additionalProperties": true,
+      "description": "Safe user-facing failure with no raw model output or source contents.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "AIDiagnostic",
+      "type": "object"
+    },
+    "AIRecordResult": {
+      "additionalProperties": true,
+      "description": "Independent record outcome, including partial/rejected output.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "title": "String Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "needs_clarification",
+            "partial",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/AuditFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "revisions": {
+          "items": {
+            "$ref": "#/$defs/ProposedRevision"
+          },
+          "title": "Revisions",
+          "type": "array"
+        },
+        "clarifications": {
+          "items": {
+            "$ref": "#/$defs/Clarification"
+          },
+          "title": "Clarifications",
+          "type": "array"
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/AIDiagnostic"
+          },
+          "title": "Diagnostics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "string_id",
+        "status"
+      ],
+      "title": "AIRecordResult",
+      "type": "object"
+    },
+    "AuditFinding": {
+      "additionalProperties": true,
+      "description": "Source-linked advisory finding, separate from original content.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "finding_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "detection_method": {
+          "enum": [
+            "deterministic",
+            "ai_assisted"
+          ],
+          "title": "Detection Method",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "matched_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched Text"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "related_string_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related String Ids",
+          "type": "array"
+        },
+        "requires_behavior_confirmation": {
+          "default": false,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "string_id",
+        "category",
+        "severity",
+        "detection_method",
+        "explanation"
+      ],
+      "title": "AuditFinding",
+      "type": "object"
+    },
+    "Clarification": {
+      "additionalProperties": true,
+      "description": "A question instead of an unsupported product assertion.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "title": "String Id",
+          "type": "string"
+        },
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "question": {
+          "title": "Question",
+          "type": "string"
+        }
+      },
+      "required": [
+        "string_id",
+        "question"
+      ],
+      "title": "Clarification",
+      "type": "object"
+    },
+    "ProposedRevision": {
+      "additionalProperties": true,
+      "description": "Pending source-linked candidate; never an automatically accepted replacement.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "revision_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Revision Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "suggested_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Suggested Text",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "requires_behavior_confirmation": {
+          "default": true,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        },
+        "protected_tokens_valid": {
+          "default": false,
+          "title": "Protected Tokens Valid",
+          "type": "boolean"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "model_identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Identifier"
+        },
+        "evidence_quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Quote"
+        }
+      },
+      "required": [
+        "string_id",
+        "suggested_text",
+        "rationale"
+      ],
+      "title": "ProposedRevision",
+      "type": "object"
+    },
+    "ReviewStatus": {
+      "description": "Explicit human editorial decisions for a revision version.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_clarification"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "description": "AI run traceability and per-source outcomes; never overwrites source.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "project_id": {
+      "title": "Project Id",
+      "type": "string"
+    },
+    "model_identifier": {
+      "title": "Model Identifier",
+      "type": "string"
+    },
+    "model_digest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Model Digest"
+    },
+    "style_guide_version": {
+      "title": "Style Guide Version",
+      "type": "string"
+    },
+    "application_version": {
+      "title": "Application Version",
+      "type": "string"
+    },
+    "prompt_version": {
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "source_fingerprint": {
+      "default": "",
+      "title": "Source Fingerprint",
+      "type": "string"
+    },
+    "input_fingerprint": {
+      "title": "Input Fingerprint",
+      "type": "string"
+    },
+    "requested_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Requested Ids",
+      "type": "array"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/AIRecordResult"
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "partial",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "analyzed_count": {
+      "title": "Analyzed Count",
+      "type": "integer"
+    },
+    "failed_count": {
+      "title": "Failed Count",
+      "type": "integer"
+    },
+    "partial_count": {
+      "title": "Partial Count",
+      "type": "integer"
+    },
+    "clarification_count": {
+      "title": "Clarification Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "project_id",
+    "model_identifier",
+    "model_digest",
+    "style_guide_version",
+    "application_version",
+    "prompt_version",
+    "input_fingerprint",
+    "requested_ids",
+    "records",
+    "status",
+    "analyzed_count",
+    "failed_count",
+    "partial_count",
+    "clarification_count"
+  ],
+  "title": "AIAnalysisResult",
+  "type": "object"
+}

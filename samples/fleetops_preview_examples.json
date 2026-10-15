@@ -1,0 +1,139 @@
+[
+  {
+    "schema_version": "1.0",
+    "example_id": "PREVIEW-EXAMPLE-001",
+    "description": "Fictional, human-authored layout demonstration; not AI output or an approved replacement.",
+    "source": {
+      "schema_version": "1.0",
+      "string_id": "PREVIEW-001",
+      "component_type": "button",
+      "original_text": "Proceed",
+      "context": "Fictional FleetOps component preview demonstration.",
+      "product_behavior": "Submit report sends the current draft report for supervisor review.",
+      "max_chars": 24,
+      "protected_tokens": [],
+      "source_reference": "fictional://fleetops/preview/1"
+    },
+    "revision": {
+      "schema_version": "1.0",
+      "revision_id": "PREVIEW-REV-001",
+      "string_id": "PREVIEW-001",
+      "suggested_text": "Submit report",
+      "rationale": "Illustrative human-authored wording for comparing layouts; confirm behavior before use.",
+      "requires_behavior_confirmation": true,
+      "protected_tokens_valid": false,
+      "review_status": "pending",
+      "evidence_quote": "Submit report sends the current draft report for supervisor review."
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "example_id": "PREVIEW-EXAMPLE-002",
+    "description": "Fictional, human-authored layout demonstration; not AI output or an approved replacement.",
+    "source": {
+      "schema_version": "1.0",
+      "string_id": "PREVIEW-002",
+      "component_type": "field_label",
+      "original_text": "Your operational vehicular asset designation identifier",
+      "context": "Fictional FleetOps component preview demonstration.",
+      "product_behavior": "Vehicle name is the human-readable name of a fleet vehicle.",
+      "max_chars": 40,
+      "protected_tokens": [],
+      "source_reference": "fictional://fleetops/preview/2"
+    },
+    "revision": {
+      "schema_version": "1.0",
+      "revision_id": "PREVIEW-REV-002",
+      "string_id": "PREVIEW-002",
+      "suggested_text": "Vehicle name",
+      "rationale": "Illustrative human-authored wording for comparing layouts; confirm behavior before use.",
+      "requires_behavior_confirmation": true,
+      "protected_tokens_valid": false,
+      "review_status": "pending",
+      "evidence_quote": "Vehicle name is the human-readable name of a fleet vehicle."
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "example_id": "PREVIEW-EXAMPLE-003",
+    "description": "Fictional, human-authored layout demonstration; not AI output or an approved replacement.",
+    "source": {
+      "schema_version": "1.0",
+      "string_id": "PREVIEW-003",
+      "component_type": "tooltip",
+      "original_text": "Utilize the telematics ingestion pipeline",
+      "context": "Fictional FleetOps component preview demonstration.",
+      "product_behavior": "Use the vehicle filter to show maintenance reports for one vehicle.",
+      "max_chars": 120,
+      "protected_tokens": [],
+      "source_reference": "fictional://fleetops/preview/3"
+    },
+    "revision": {
+      "schema_version": "1.0",
+      "revision_id": "PREVIEW-REV-003",
+      "string_id": "PREVIEW-003",
+      "suggested_text": "Use the vehicle filter to show maintenance reports.",
+      "rationale": "Illustrative human-authored wording for comparing layouts; confirm behavior before use.",
+      "requires_behavior_confirmation": true,
+      "protected_tokens_valid": false,
+      "review_status": "pending",
+      "evidence_quote": "Use the vehicle filter to show maintenance reports for one vehicle."
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "example_id": "PREVIEW-EXAMPLE-004",
+    "description": "Fictional, human-authored layout demonstration; not AI output or an approved replacement.",
+    "source": {
+      "schema_version": "1.0",
+      "string_id": "PREVIEW-004",
+      "component_type": "error_warning",
+      "original_text": "Unable to save report {report_id}.",
+      "context": "Fictional FleetOps component preview demonstration.",
+      "product_behavior": "A failed save leaves the current draft available. The cause and retry behavior are not specified.",
+      "max_chars": 160,
+      "protected_tokens": [
+        "{report_id}"
+      ],
+      "source_reference": "fictional://fleetops/preview/4"
+    },
+    "revision": {
+      "schema_version": "1.0",
+      "revision_id": "PREVIEW-REV-004",
+      "string_id": "PREVIEW-004",
+      "suggested_text": "Report {report_id} could not be saved. Your draft is still available.",
+      "rationale": "Illustrative human-authored wording for comparing layouts; confirm behavior before use.",
+      "requires_behavior_confirmation": true,
+      "protected_tokens_valid": false,
+      "review_status": "pending",
+      "evidence_quote": "A failed save leaves the current draft available. The cause and retry behavior are not specified."
+    }
+  },
+  {
+    "schema_version": "1.0",
+    "example_id": "PREVIEW-EXAMPLE-005",
+    "description": "Fictional, human-authored layout demonstration; not AI output or an approved replacement.",
+    "source": {
+      "schema_version": "1.0",
+      "string_id": "PREVIEW-005",
+      "component_type": "onboarding_empty_state",
+      "original_text": "No stuff yet",
+      "context": "Fictional FleetOps component preview demonstration.",
+      "product_behavior": "Add your first vehicle to start tracking maintenance in this fictional workspace.",
+      "max_chars": 240,
+      "protected_tokens": [],
+      "source_reference": "fictional://fleetops/preview/5"
+    },
+    "revision": {
+      "schema_version": "1.0",
+      "revision_id": "PREVIEW-REV-005",
+      "string_id": "PREVIEW-005",
+      "suggested_text": "Add your first vehicle to start tracking maintenance.",
+      "rationale": "Illustrative human-authored wording for comparing layouts; confirm behavior before use.",
+      "requires_behavior_confirmation": true,
+      "protected_tokens_valid": false,
+      "review_status": "pending",
+      "evidence_quote": "Add your first vehicle to start tracking maintenance in this fictional workspace."
+    }
+  }
+]

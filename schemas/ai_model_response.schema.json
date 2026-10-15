@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "ModelFinding": {
+      "additionalProperties": false,
+      "description": "Untrusted model output; identifiers and review states are app-owned.",
+      "properties": {
+        "category": {
+          "enum": [
+            "clarity",
+            "terminology",
+            "tone",
+            "actionability",
+            "accessibility_wording",
+            "jargon",
+            "error_recovery",
+            "instructions"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "suggested_text": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Suggested Text"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rationale"
+        },
+        "evidence_quote": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evidence Quote"
+        },
+        "clarification_question": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Clarification Question"
+        }
+      },
+      "required": [
+        "category",
+        "severity",
+        "explanation",
+        "suggested_text",
+        "rationale",
+        "evidence_quote",
+        "clarification_question"
+      ],
+      "title": "ModelFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Exactly one requested source per bounded local inference request.",
+  "properties": {
+    "string_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "String Id",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/ModelFinding"
+      },
+      "maxItems": 5,
+      "title": "Findings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "string_id",
+    "findings"
+  ],
+  "title": "ModelResponse",
+  "type": "object"
+}

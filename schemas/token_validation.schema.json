@@ -1,0 +1,56 @@
+{
+  "additionalProperties": true,
+  "description": "Multiset comparison of protected source and candidate tokens.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "valid": {
+      "title": "Valid",
+      "type": "boolean"
+    },
+    "missing": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Missing",
+      "type": "object"
+    },
+    "added": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Added",
+      "type": "object"
+    },
+    "source_tokens": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Source Tokens",
+      "type": "object"
+    },
+    "candidate_tokens": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Candidate Tokens",
+      "type": "object"
+    },
+    "absent_declared_tokens": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Absent Declared Tokens",
+      "type": "array"
+    }
+  },
+  "required": [
+    "valid"
+  ],
+  "title": "TokenValidation",
+  "type": "object"
+}

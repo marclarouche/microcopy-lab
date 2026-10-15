@@ -1,0 +1,1198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Microcopy Lab editorial report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "session_id",
+    "application_version",
+    "generated_at",
+    "project",
+    "style_guide",
+    "input_fingerprint",
+    "summary",
+    "findings",
+    "reviews",
+    "approved_replacements",
+    "ai_analysis",
+    "validation_warnings",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "application_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "project": {
+      "$ref": "#/$defs/Project"
+    },
+    "style_guide": {
+      "$ref": "#/$defs/StyleGuide"
+    },
+    "input_fingerprint": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_strings": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "strings_analyzed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pending_review_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "approved_revision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_revision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "needs_clarification_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale_revision_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "character_limit_violations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed_analysis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partial_analysis_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "analysis_methods": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "deterministic",
+              "ai_assisted"
+            ]
+          }
+        },
+        "findings_by_category": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "findings_by_severity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "required": [
+        "total_strings",
+        "strings_analyzed",
+        "pending_review_count",
+        "approved_revision_count",
+        "rejected_revision_count",
+        "needs_clarification_count",
+        "stale_revision_count",
+        "character_limit_violations",
+        "failed_analysis_count",
+        "partial_analysis_count",
+        "analysis_methods",
+        "findings_by_category",
+        "findings_by_severity"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AuditFinding"
+      }
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ReviewEntry"
+      }
+    },
+    "approved_replacements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "string_id",
+          "original_text",
+          "replacement_text",
+          "revision_id",
+          "revision_version"
+        ],
+        "properties": {
+          "string_id": {
+            "type": "string"
+          },
+          "original_text": {
+            "type": "string"
+          },
+          "replacement_text": {
+            "type": "string"
+          },
+          "revision_id": {
+            "type": "string"
+          },
+          "revision_version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "ai_analysis": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AIAnalysisResult"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validation_warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ValidationWarning"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "ComponentType": {
+      "description": "Supported component categories.",
+      "enum": [
+        "button",
+        "field_label",
+        "tooltip",
+        "error_warning",
+        "onboarding_empty_state"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    },
+    "ProposedRevision": {
+      "additionalProperties": true,
+      "description": "Pending source-linked candidate; never an automatically accepted replacement.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "revision_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Revision Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "suggested_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Suggested Text",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "requires_behavior_confirmation": {
+          "default": true,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        },
+        "protected_tokens_valid": {
+          "default": false,
+          "title": "Protected Tokens Valid",
+          "type": "boolean"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "model_identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Identifier"
+        },
+        "evidence_quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Quote"
+        }
+      },
+      "required": [
+        "string_id",
+        "suggested_text",
+        "rationale"
+      ],
+      "title": "ProposedRevision",
+      "type": "object"
+    },
+    "ReviewStatus": {
+      "description": "Explicit human editorial decisions for a revision version.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_clarification"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    },
+    "UIString": {
+      "additionalProperties": true,
+      "description": "Original string and its source context, without editorial changes.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "component_type": {
+          "$ref": "#/$defs/ComponentType"
+        },
+        "original_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Original Text",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Context",
+          "type": "string"
+        },
+        "screen_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Screen Id"
+        },
+        "product_area": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Area"
+        },
+        "user_goal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Goal"
+        },
+        "max_chars": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 100000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Chars"
+        },
+        "product_behavior": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Behavior"
+        },
+        "design_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Notes"
+        },
+        "protected_tokens": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Protected Tokens",
+          "type": "array"
+        },
+        "source_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Reference"
+        }
+      },
+      "required": [
+        "string_id",
+        "component_type",
+        "original_text",
+        "context"
+      ],
+      "title": "UIString",
+      "type": "object"
+    },
+    "ReviewEntry": {
+      "additionalProperties": true,
+      "description": "A revision and the exact source/configuration against which it was reviewed.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "revision": {
+          "$ref": "#/$defs/ProposedRevision"
+        },
+        "initial_revision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProposedRevision"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "edited_by_human": {
+          "default": false,
+          "title": "Edited By Human",
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/UIString"
+        },
+        "source_fingerprint": {
+          "title": "Source Fingerprint",
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "manual",
+            "ai_assisted",
+            "illustrative"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "notes": {
+          "default": "",
+          "maxLength": 10000,
+          "title": "Notes",
+          "type": "string"
+        },
+        "behavior_confirmed": {
+          "default": false,
+          "title": "Behavior Confirmed",
+          "type": "boolean"
+        },
+        "stale": {
+          "type": "boolean"
+        },
+        "approval_problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "revision",
+        "source",
+        "source_fingerprint",
+        "origin",
+        "stale",
+        "approval_problems"
+      ],
+      "title": "ReviewEntry",
+      "type": "object"
+    },
+    "Project": {
+      "additionalProperties": true,
+      "description": "In-memory project boundary with unique source identifiers.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "project_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Project Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "product_context": {
+          "default": "",
+          "title": "Product Context",
+          "type": "string"
+        },
+        "strings": {
+          "items": {
+            "$ref": "#/$defs/UIString"
+          },
+          "title": "Strings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Project",
+      "type": "object"
+    },
+    "ComponentRules": {
+      "additionalProperties": false,
+      "description": "Exact generic labels to flag for a particular component.",
+      "properties": {
+        "discouraged_labels": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Discouraged Labels",
+          "type": "array"
+        }
+      },
+      "title": "ComponentRules",
+      "type": "object"
+    },
+    "StyleGuide": {
+      "additionalProperties": false,
+      "description": "Editorial rules; patterns are literal phrases, never arbitrary regex.",
+      "properties": {
+        "name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        },
+        "audience": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Audience",
+          "type": "string"
+        },
+        "voice": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Voice",
+          "type": "object"
+        },
+        "terminology": {
+          "additionalProperties": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "propertyNames": {
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "title": "Terminology",
+          "type": "object"
+        },
+        "component_limits": {
+          "additionalProperties": {
+            "exclusiveMinimum": 0,
+            "maximum": 100000,
+            "type": "integer"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/ComponentType"
+          },
+          "title": "Component Limits",
+          "type": "object"
+        },
+        "writing_rules": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Writing Rules",
+          "type": "object"
+        },
+        "max_records": {
+          "default": 1000,
+          "exclusiveMinimum": 0,
+          "maximum": 100000,
+          "title": "Max Records",
+          "type": "integer"
+        },
+        "prohibited_phrases": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Prohibited Phrases",
+          "type": "array"
+        },
+        "protected_terms": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Protected Terms",
+          "type": "array"
+        },
+        "component_rules": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ComponentRules"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/ComponentType"
+          },
+          "title": "Component Rules",
+          "type": "object"
+        },
+        "enabled_categories": {
+          "items": {
+            "enum": [
+              "length",
+              "terminology",
+              "prohibited_phrase",
+              "whitespace",
+              "punctuation",
+              "component",
+              "placeholders",
+              "consistency"
+            ],
+            "type": "string"
+          },
+          "title": "Enabled Categories",
+          "type": "array"
+        },
+        "placeholder_syntaxes": {
+          "items": {
+            "enum": [
+              "brace",
+              "dollar_brace",
+              "printf"
+            ],
+            "type": "string"
+          },
+          "title": "Placeholder Syntaxes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "audience",
+        "voice",
+        "terminology",
+        "component_limits",
+        "writing_rules"
+      ],
+      "title": "StyleGuide",
+      "type": "object"
+    },
+    "AuditFinding": {
+      "additionalProperties": true,
+      "description": "Source-linked advisory finding, separate from original content.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "finding_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "detection_method": {
+          "enum": [
+            "deterministic",
+            "ai_assisted"
+          ],
+          "title": "Detection Method",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "matched_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched Text"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "related_string_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related String Ids",
+          "type": "array"
+        },
+        "requires_behavior_confirmation": {
+          "default": false,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "string_id",
+        "category",
+        "severity",
+        "detection_method",
+        "explanation"
+      ],
+      "title": "AuditFinding",
+      "type": "object"
+    },
+    "AIDiagnostic": {
+      "additionalProperties": true,
+      "description": "Safe user-facing failure with no raw model output or source contents.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "AIDiagnostic",
+      "type": "object"
+    },
+    "AIRecordResult": {
+      "additionalProperties": true,
+      "description": "Independent record outcome, including partial/rejected output.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "title": "String Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "needs_clarification",
+            "partial",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/AuditFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "revisions": {
+          "items": {
+            "$ref": "#/$defs/ProposedRevision"
+          },
+          "title": "Revisions",
+          "type": "array"
+        },
+        "clarifications": {
+          "items": {
+            "$ref": "#/$defs/Clarification"
+          },
+          "title": "Clarifications",
+          "type": "array"
+        },
+        "diagnostics": {
+          "items": {
+            "$ref": "#/$defs/AIDiagnostic"
+          },
+          "title": "Diagnostics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "string_id",
+        "status"
+      ],
+      "title": "AIRecordResult",
+      "type": "object"
+    },
+    "Clarification": {
+      "additionalProperties": true,
+      "description": "A question instead of an unsupported product assertion.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "title": "String Id",
+          "type": "string"
+        },
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "question": {
+          "title": "Question",
+          "type": "string"
+        }
+      },
+      "required": [
+        "string_id",
+        "question"
+      ],
+      "title": "Clarification",
+      "type": "object"
+    },
+    "AIAnalysisResult": {
+      "additionalProperties": true,
+      "description": "AI run traceability and per-source outcomes; never overwrites source.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "project_id": {
+          "title": "Project Id",
+          "type": "string"
+        },
+        "model_identifier": {
+          "title": "Model Identifier",
+          "type": "string"
+        },
+        "model_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Model Digest"
+        },
+        "style_guide_version": {
+          "title": "Style Guide Version",
+          "type": "string"
+        },
+        "application_version": {
+          "title": "Application Version",
+          "type": "string"
+        },
+        "prompt_version": {
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "source_fingerprint": {
+          "default": "",
+          "title": "Source Fingerprint",
+          "type": "string"
+        },
+        "input_fingerprint": {
+          "title": "Input Fingerprint",
+          "type": "string"
+        },
+        "requested_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Requested Ids",
+          "type": "array"
+        },
+        "records": {
+          "items": {
+            "$ref": "#/$defs/AIRecordResult"
+          },
+          "title": "Records",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "partial",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "analyzed_count": {
+          "title": "Analyzed Count",
+          "type": "integer"
+        },
+        "failed_count": {
+          "title": "Failed Count",
+          "type": "integer"
+        },
+        "partial_count": {
+          "title": "Partial Count",
+          "type": "integer"
+        },
+        "clarification_count": {
+          "title": "Clarification Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "project_id",
+        "model_identifier",
+        "model_digest",
+        "style_guide_version",
+        "application_version",
+        "prompt_version",
+        "input_fingerprint",
+        "requested_ids",
+        "records",
+        "status",
+        "analyzed_count",
+        "failed_count",
+        "partial_count",
+        "clarification_count"
+      ],
+      "title": "AIAnalysisResult",
+      "type": "object"
+    },
+    "ValidationWarning": {
+      "additionalProperties": true,
+      "description": "Safe diagnostic without source text or parser internals.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "warning_id": {
+          "title": "Warning Id",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "row": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Row"
+        },
+        "string_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "String Id"
+        },
+        "severity": {
+          "default": "error",
+          "enum": [
+            "error",
+            "warning"
+          ],
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ValidationWarning",
+      "type": "object"
+    }
+  }
+}

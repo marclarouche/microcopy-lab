@@ -1,0 +1,68 @@
+{
+  "additionalProperties": false,
+  "description": "Bounded inference configuration; no cloud endpoints or arbitrary hosts.",
+  "properties": {
+    "base_url": {
+      "default": "http://127.0.0.1:11434",
+      "title": "Base Url",
+      "type": "string"
+    },
+    "model": {
+      "default": "qwen3-vl:4b-instruct",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,199}$",
+      "title": "Model",
+      "type": "string"
+    },
+    "timeout_seconds": {
+      "default": 120,
+      "maximum": 120,
+      "minimum": 1,
+      "title": "Timeout Seconds",
+      "type": "integer"
+    },
+    "run_timeout_seconds": {
+      "default": 180,
+      "maximum": 600,
+      "minimum": 1,
+      "title": "Run Timeout Seconds",
+      "type": "integer"
+    },
+    "max_records_per_run": {
+      "default": 5,
+      "maximum": 20,
+      "minimum": 1,
+      "title": "Max Records Per Run",
+      "type": "integer"
+    },
+    "max_input_bytes": {
+      "default": 32768,
+      "maximum": 131072,
+      "minimum": 4096,
+      "title": "Max Input Bytes",
+      "type": "integer"
+    },
+    "max_response_bytes": {
+      "default": 131072,
+      "maximum": 524288,
+      "minimum": 4096,
+      "title": "Max Response Bytes",
+      "type": "integer"
+    },
+    "max_output_tokens": {
+      "default": 512,
+      "maximum": 4096,
+      "minimum": 128,
+      "title": "Max Output Tokens",
+      "type": "integer"
+    },
+    "context_tokens": {
+      "default": 8192,
+      "maximum": 16384,
+      "minimum": 4096,
+      "title": "Context Tokens",
+      "type": "integer"
+    }
+  },
+  "title": "AISettings",
+  "type": "object"
+}

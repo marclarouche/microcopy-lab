@@ -1,0 +1,334 @@
+{
+  "$defs": {
+    "ComponentType": {
+      "description": "Supported component categories.",
+      "enum": [
+        "button",
+        "field_label",
+        "tooltip",
+        "error_warning",
+        "onboarding_empty_state"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    },
+    "ProposedRevision": {
+      "additionalProperties": true,
+      "description": "Pending source-linked candidate; never an automatically accepted replacement.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "revision_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Revision Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "finding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Finding Id"
+        },
+        "suggested_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Suggested Text",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "requires_behavior_confirmation": {
+          "default": true,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        },
+        "protected_tokens_valid": {
+          "default": false,
+          "title": "Protected Tokens Valid",
+          "type": "boolean"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "severity": {
+          "anyOf": [
+            {
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Severity"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "model_identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model Identifier"
+        },
+        "evidence_quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Quote"
+        }
+      },
+      "required": [
+        "string_id",
+        "suggested_text",
+        "rationale"
+      ],
+      "title": "ProposedRevision",
+      "type": "object"
+    },
+    "ReviewStatus": {
+      "description": "Explicit human editorial decisions for a revision version.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_clarification"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    },
+    "UIString": {
+      "additionalProperties": true,
+      "description": "Original string and its source context, without editorial changes.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "component_type": {
+          "$ref": "#/$defs/ComponentType"
+        },
+        "original_text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Original Text",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Context",
+          "type": "string"
+        },
+        "screen_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Screen Id"
+        },
+        "product_area": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Area"
+        },
+        "user_goal": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Goal"
+        },
+        "max_chars": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "maximum": 100000,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Chars"
+        },
+        "product_behavior": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Product Behavior"
+        },
+        "design_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Notes"
+        },
+        "protected_tokens": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Protected Tokens",
+          "type": "array"
+        },
+        "source_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Reference"
+        }
+      },
+      "required": [
+        "string_id",
+        "component_type",
+        "original_text",
+        "context"
+      ],
+      "title": "UIString",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Human-authored illustrative pair; never represented as AI output/approval.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "example_id": {
+      "title": "Example Id",
+      "type": "string"
+    },
+    "description": {
+      "maxLength": 500,
+      "title": "Description",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/UIString"
+    },
+    "revision": {
+      "$ref": "#/$defs/ProposedRevision"
+    }
+  },
+  "required": [
+    "example_id",
+    "description",
+    "source",
+    "revision"
+  ],
+  "title": "PreviewExample",
+  "type": "object"
+}

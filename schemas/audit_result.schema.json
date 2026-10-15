@@ -1,0 +1,249 @@
+{
+  "$defs": {
+    "AuditFinding": {
+      "additionalProperties": true,
+      "description": "Source-linked advisory finding, separate from original content.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "finding_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "string_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+          "title": "String Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "detection_method": {
+          "enum": [
+            "deterministic",
+            "ai_assisted"
+          ],
+          "title": "Detection Method",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "review_status": {
+          "$ref": "#/$defs/ReviewStatus",
+          "default": "pending"
+        },
+        "matched_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matched Text"
+        },
+        "start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start"
+        },
+        "end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End"
+        },
+        "related_string_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related String Ids",
+          "type": "array"
+        },
+        "requires_behavior_confirmation": {
+          "default": false,
+          "title": "Requires Behavior Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "string_id",
+        "category",
+        "severity",
+        "detection_method",
+        "explanation"
+      ],
+      "title": "AuditFinding",
+      "type": "object"
+    },
+    "AuditSummary": {
+      "additionalProperties": true,
+      "description": "Counts only; no aggregate quality score or compliance assessment.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "total_strings": {
+          "title": "Total Strings",
+          "type": "integer"
+        },
+        "strings_analyzed": {
+          "title": "Strings Analyzed",
+          "type": "integer"
+        },
+        "strings_with_findings": {
+          "title": "Strings With Findings",
+          "type": "integer"
+        },
+        "findings_by_category": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Findings By Category",
+          "type": "object"
+        },
+        "findings_by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Findings By Severity",
+          "type": "object"
+        },
+        "character_limit_violations": {
+          "title": "Character Limit Violations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_strings",
+        "strings_analyzed",
+        "strings_with_findings",
+        "findings_by_category",
+        "findings_by_severity",
+        "character_limit_violations"
+      ],
+      "title": "AuditSummary",
+      "type": "object"
+    },
+    "ReviewStatus": {
+      "description": "Explicit human editorial decisions for a revision version.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_clarification"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "description": "Reproducible in-memory deterministic audit and its input fingerprint.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "project_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[^\\s\\x00-\\x1f\\x7f]+$",
+      "title": "Project Id",
+      "type": "string"
+    },
+    "style_guide_name": {
+      "title": "Style Guide Name",
+      "type": "string"
+    },
+    "style_guide_version": {
+      "title": "Style Guide Version",
+      "type": "string"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "input_fingerprint": {
+      "title": "Input Fingerprint",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/AuditFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "summary": {
+      "$ref": "#/$defs/AuditSummary"
+    }
+  },
+  "required": [
+    "project_id",
+    "style_guide_name",
+    "style_guide_version",
+    "engine_version",
+    "input_fingerprint",
+    "findings",
+    "summary"
+  ],
+  "title": "AuditResult",
+  "type": "object"
+}

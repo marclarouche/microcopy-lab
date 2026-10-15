@@ -1,0 +1,172 @@
+{
+  "$defs": {
+    "ComponentRules": {
+      "additionalProperties": false,
+      "description": "Exact generic labels to flag for a particular component.",
+      "properties": {
+        "discouraged_labels": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Discouraged Labels",
+          "type": "array"
+        }
+      },
+      "title": "ComponentRules",
+      "type": "object"
+    },
+    "ComponentType": {
+      "description": "Supported component categories.",
+      "enum": [
+        "button",
+        "field_label",
+        "tooltip",
+        "error_warning",
+        "onboarding_empty_state"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Editorial rules; patterns are literal phrases, never arbitrary regex.",
+  "properties": {
+    "name": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "version": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Version",
+      "type": "string"
+    },
+    "audience": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Audience",
+      "type": "string"
+    },
+    "voice": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Voice",
+      "type": "object"
+    },
+    "terminology": {
+      "additionalProperties": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "propertyNames": {
+        "maxLength": 200,
+        "minLength": 1
+      },
+      "title": "Terminology",
+      "type": "object"
+    },
+    "component_limits": {
+      "additionalProperties": {
+        "exclusiveMinimum": 0,
+        "maximum": 100000,
+        "type": "integer"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/ComponentType"
+      },
+      "title": "Component Limits",
+      "type": "object"
+    },
+    "writing_rules": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Writing Rules",
+      "type": "object"
+    },
+    "max_records": {
+      "default": 1000,
+      "exclusiveMinimum": 0,
+      "maximum": 100000,
+      "title": "Max Records",
+      "type": "integer"
+    },
+    "prohibited_phrases": {
+      "items": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 500,
+      "title": "Prohibited Phrases",
+      "type": "array"
+    },
+    "protected_terms": {
+      "items": {
+        "maxLength": 200,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 500,
+      "title": "Protected Terms",
+      "type": "array"
+    },
+    "component_rules": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ComponentRules"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/ComponentType"
+      },
+      "title": "Component Rules",
+      "type": "object"
+    },
+    "enabled_categories": {
+      "items": {
+        "enum": [
+          "length",
+          "terminology",
+          "prohibited_phrase",
+          "whitespace",
+          "punctuation",
+          "component",
+          "placeholders",
+          "consistency"
+        ],
+        "type": "string"
+      },
+      "title": "Enabled Categories",
+      "type": "array"
+    },
+    "placeholder_syntaxes": {
+      "items": {
+        "enum": [
+          "brace",
+          "dollar_brace",
+          "printf"
+        ],
+        "type": "string"
+      },
+      "title": "Placeholder Syntaxes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "audience",
+    "voice",
+    "terminology",
+    "component_limits",
+    "writing_rules"
+  ],
+  "title": "StyleGuide",
+  "type": "object"
+}

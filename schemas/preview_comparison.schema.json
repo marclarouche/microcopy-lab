@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "ComponentType": {
+      "description": "Supported component categories.",
+      "enum": [
+        "button",
+        "field_label",
+        "tooltip",
+        "error_warning",
+        "onboarding_empty_state"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    },
+    "LayoutSize": {
+      "description": "Predefined illustrative frame widths, not production breakpoints.",
+      "enum": [
+        "compact",
+        "comfortable",
+        "wide"
+      ],
+      "title": "LayoutSize",
+      "type": "string"
+    },
+    "PreviewVariant": {
+      "additionalProperties": false,
+      "description": "Exact copy and advisory metrics for one version of a component.",
+      "properties": {
+        "version": {
+          "enum": [
+            "original",
+            "revised"
+          ],
+          "title": "Version",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "character_count": {
+          "title": "Character Count",
+          "type": "integer"
+        },
+        "max_chars": {
+          "title": "Max Chars",
+          "type": "integer"
+        },
+        "exceeds_character_limit": {
+          "title": "Exceeds Character Limit",
+          "type": "boolean"
+        },
+        "estimated_lines": {
+          "title": "Estimated Lines",
+          "type": "integer"
+        },
+        "visible_lines": {
+          "title": "Visible Lines",
+          "type": "integer"
+        },
+        "may_overflow_layout": {
+          "title": "May Overflow Layout",
+          "type": "boolean"
+        },
+        "tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Tokens",
+          "type": "object"
+        }
+      },
+      "required": [
+        "version",
+        "text",
+        "character_count",
+        "max_chars",
+        "exceeds_character_limit",
+        "estimated_lines",
+        "visible_lines",
+        "may_overflow_layout",
+        "tokens"
+      ],
+      "title": "PreviewVariant",
+      "type": "object"
+    },
+    "TokenValidation": {
+      "additionalProperties": true,
+      "description": "Multiset comparison of protected source and candidate tokens.",
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "valid": {
+          "title": "Valid",
+          "type": "boolean"
+        },
+        "missing": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Missing",
+          "type": "object"
+        },
+        "added": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Added",
+          "type": "object"
+        },
+        "source_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Source Tokens",
+          "type": "object"
+        },
+        "candidate_tokens": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Candidate Tokens",
+          "type": "object"
+        },
+        "absent_declared_tokens": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Absent Declared Tokens",
+          "type": "array"
+        }
+      },
+      "required": [
+        "valid"
+      ],
+      "title": "TokenValidation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Source-linked snapshot, independent of rendering or application state.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "preview_version": {
+      "default": "preview-1.0",
+      "title": "Preview Version",
+      "type": "string"
+    },
+    "string_id": {
+      "title": "String Id",
+      "type": "string"
+    },
+    "component_type": {
+      "$ref": "#/$defs/ComponentType"
+    },
+    "layout": {
+      "$ref": "#/$defs/LayoutSize"
+    },
+    "frame_width_px": {
+      "title": "Frame Width Px",
+      "type": "integer"
+    },
+    "original": {
+      "$ref": "#/$defs/PreviewVariant"
+    },
+    "revised": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PreviewVariant"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revision_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Revision Id"
+    },
+    "token_validation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TokenValidation"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "revision_blocked_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Revision Blocked Reason"
+    }
+  },
+  "required": [
+    "string_id",
+    "component_type",
+    "layout",
+    "frame_width_px",
+    "original",
+    "revised",
+    "revision_id",
+    "token_validation",
+    "revision_blocked_reason"
+  ],
+  "title": "PreviewComparison",
+  "type": "object"
+}

@@ -1,0 +1,4 @@
+# CSV bytes and embedded string whitespace are source data.
+*.csv -text whitespace=cr-at-eol
+# Markdown uses trailing spaces for intentional hard line breaks.
+*.md whitespace=-blank-at-eol

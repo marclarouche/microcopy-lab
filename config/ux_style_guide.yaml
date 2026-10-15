@@ -1,0 +1,36 @@
+name: Microcopy Lab Default UX Guide
+version: "1.1"
+audience: General SaaS users
+voice: {clear: true, concise: true, professional: true, helpful: true, avoid_blame: true}
+terminology: {log in: sign in, utilize: use, abort: cancel, execute: run}
+component_limits:
+  button: 24
+  field_label: 40
+  tooltip: 120
+  error_warning: 160
+  onboarding_empty_state: 240
+writing_rules:
+  prefer_specific_actions: true
+  avoid_unexplained_error_codes: true
+  explain_recovery_steps_when_known: true
+  preserve_product_meaning: true
+  preserve_dynamic_placeholders: true
+max_records: 1000
+
+# All matches are advisory; these are FleetOps demonstration preferences.
+prohibited_phrases:
+  - you entered bad data
+protected_terms:
+  - FleetOps
+  - API
+component_rules:
+  button:
+    discouraged_labels: [Proceed, Go, OK]
+  tooltip:
+    discouraged_labels: [Click here for stuff, This is the thing you need to do]
+  error_warning:
+    discouraged_labels: [Something went wrong.]
+  onboarding_empty_state:
+    discouraged_labels: [No stuff yet]
+placeholder_syntaxes: [brace, dollar_brace, printf]
+enabled_categories: [length, terminology, prohibited_phrase, whitespace, punctuation, component, placeholders, consistency]
